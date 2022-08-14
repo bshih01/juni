@@ -1,0 +1,62 @@
+drop
+print
+not
+swap
+dup
+#t { 1 }
+if
++ - * / mod
+1 +
+1 -
+1 *
+1 /
+1 mod
+> < == >= <=
+1 <
+1 >
+1 ==
+1 >=
+1 <=
+#t #f mod
+{ 1 } { 2 } *
+#t 1 mod
+#t 2 +
+2 #f -
+1 #t mod
+#t #f +
+123 233 mod
+{ #t #f - } exec
+#t #t #t if
+clear
+{ 1 } { 2 } { 3 } if
+clear
+{ 1 } #t { 2 } if
+clear
+{ 2 } { 1 } #f if
+{ 2 } #f #t if
+1 2 3 if
+{ 1 } #t #f if
+#f { 1 } #f if
+#t #f { 2 } if
+{ 1 } { 2 } { 3 } if
+clear
+#t { 1 } if
+{ 1 } #t if
+clear
+exec
+1 exec
+#t exec
+{ } exec
+{ } file
+{ { { 1 2 + } exec } exec } exec
+#t not
+print
+#f not print
+clear
+1 not
+if not #t
+clear
+{ fail.cyl }
+{ add.cylc }
+4
+{ fact.cylc }

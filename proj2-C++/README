@@ -1,0 +1,155 @@
+Project 2: RPN CalcYouLater
+CS 15
+README
+Brandon Shih
+3/1/2022
+
+
+Acknowledgements: 
+    TA Office hours, CS15 Lecture, cplusplus, stackoverflow
+
+Purpose:
+    The purpose of the RPN CalcYouLater program is to allow a user to make
+    calculations using the reverse polish notation. For example, the user
+    could calculate 1 + 2 as 1 2 + or 3 * 4 * 5 as 3 4 5 * *. The program is
+    also capable of holding booleans and a type of string called rstring.
+    The user can use these booleans (#t and #f) to write their own if
+    statements. In a way, the RPN CalcYouLater acts like a small programming
+    language. The user can use the rstrings to hold information such as more
+    rstrings, numerical operations, booleans/if statements, files; these can
+    be executed later using the "file" and "exec" command.
+
+Files provided:
+    DatumStack.h:
+        This class is a stack for objects called datum which can hold an
+        integer, bool, char, or an rstring. It also contains various functions
+        to access different information about the datum stack or make changes
+        to it.
+    DatumStack.cpp:
+        This class uses the c++ list and delegates the list functions into
+        the datum stack public member functions. By doing so, the list object
+        can manage and change the status of the datum stack. 
+    RPNCalc.h:
+        This class is a calculator in reverse polish notation as well as a
+        mini programming language. It contains functions to compute operations,
+        perform if statements, store information in files or rstrings, and
+        execute the rstrings.
+    RPNCalc.cpp:
+        This class uses the DatumStack class to manage the status of the
+        calculator as it runs. This is because the program needs to use a
+        LIFO method to compute operations in reverse polish notation. It is
+        also helpful to use LIFO for the if statements and other commands.
+        This class has one run function with many helpers to run the 
+        calculator.
+    parser.cpp:
+        This file contains the parseRString function which is used in RPNCalc
+        class. The purpose of this function is to differentiate an rstring
+        from the other commands the client can insert from std::cin. It begins
+        reading in the rstring when a { is detected and returns the rstring 
+        when the } is met.
+    main.cpp:
+        This file uses the RPNCalc class to run the program. It just creates
+        an RPNCalc object and calls its public run function to start the entire
+        process. The run function in RPNCalc will give the user a query loop
+        that ends when the user puts "quit" as a command.
+    Makefile:
+        This file contains the compilation processes for the program to
+        compile. It compiles main into an executable that can be run with the
+        command ./CalcYouLater.
+    README:
+        This file is README and it contains the information about the program
+        and how to use it.
+
+Compile/run:
+     - Compile using
+            make CalcYouLater
+     - run executable with
+            ./CalcYouLater
+
+Data Structures:
+    List:
+        The list data structure is a linked list that is pre-made in c++. A
+        linked list is useful since it can be manipulated to turn into other
+        types of data structures such as queues and stacks. Queues are just
+        lists that follow the FIFO rule while stacks are lists that follow the
+        LIFO rule.
+    Stack:
+        The stack is a LIFO type list. The benefit of using stack is that it
+        allows for a more organized way of computing calculations. In
+        general, it should be used when the order of operation is important.
+        In most computations, the prerequisites for any computation
+        needs to be met before it can continue. When the program computes
+        something and runs into a prerequisite calculation, the prerequisite
+        calculation can be placed onto the stack to be computed first. This
+        is especially useful in programs like CalcYouLater since the operations
+        are performed in reverse polish notation. The two integers that are
+        to be operated on need to be in the stack before the operator so that
+        the operator has numbers to operate on. By using stack, it is easy to
+        pop the first two numbers off the stack and calculate the operation.
+        If the stack wasn't used, it would be difficult to access the two
+        numbers to be operated on. Stacks can also be used to compute whether
+        an expression is well balanced with braces or not. Everytime a new
+        brace is opened, a new prerequisite operation is put on the stack.
+        That operation would be to check for if the opened brace is closed.
+        After completing the operation, it can return to operating on the other
+        braces that were opened earlier. By doing this to check for balance,
+        the user can easily find unbalanced/balanced expressions just by
+        seeing if any of the subprocesses had an issue. Another useful place
+        to use stack would be in writing a text editor. The order the words
+        are displayed on the screen matters especially with the delete
+        function. Everytime the user presses delete, the character that is
+        deleted would have been the last one to enter. This follows the LIFO
+        structure that the stack has.
+ 
+ Algorithms:
+    parseRString:
+        parseRString algorithm works by repeatedly taking in an input stream
+        and concatenates each character one by one until the end of the file
+        or a closing brace is met. It then converts the istream into a string
+        or more specifically an rstring for this program. By using an istream,
+        the function can operate on input file streams, string streams,
+        std::cin, etc which makes it versatile.
+    exec:
+        exec algorithm works by retrieving the top rstring from the stack and
+        getting the contents inside of the rstring and stores it in a string.
+        After doing so, it stores the string inside of a stringstream which can
+        then be read into the runHelper function, which contains the
+        parseRString to find nested rstrings, as well as other functions to
+        compute the contents inside of the original rstring.
+
+Testing:
+    For the first week, I made datum stack and tested it inside of unit_test.
+    I also created a test.cpp to experiment and play around with the functions
+    inside of datum stack. Overall, everything worked out well since c++ has
+    the pre-implemented list, and I just had to delegate the functions. I
+    tested parseRString inside of unit_test as well as in test.cpp. I tried
+    inputting istreams via std::cin and also stringstream into the parseRString
+    function. I had some issues with the spacing and bracing, but ultimately
+    solved the problems by moving the ss << char statements around in the
+    parseRString function. For the second week, I implemented the easier
+    functions in RPNCalc first, and tested them one by one in unit_test. I
+    made all of the member functions public so that I could test the private
+    functions. Since this class calls a lot of its own functions inside of
+    other functions, it was important that I chose the right functions to
+    write first and to test them well before writing the harder functions.
+    This was to prevent any future bug becoming too hard to find. For the
+    more complicated functions, I also tested them in unit_test and tried
+    experimenting with them inside of main after running ./CalcYouLater.
+    I tested the edge cases and exceptions that may occur inside of unit_test
+    as well. I tested if the exceptions were thrown with the correct message
+    while testing the datum stack class functions. Since the RPNCalc class
+    uses functions from the datum stack, it is supposed to catch the exceptions
+    thrown. To test if the exceptions were caught in RPNCalc, I asserted that
+    they were caught inside of unit_test. I also used these exceptions to test
+    the edge cases in my program. Most of the edge cases that appeared were
+    problems with empty stacks or with incorrect datum types. I also used diff
+    to test my outputs. I created a cmds.cyl that contained a list of commands
+    to be executed into std::cin from the command line. I then piped the 
+    results to diff.txt and diff1.txt and compared them. I tried different 
+    commands that tested the error message for empty_stack and 
+    datum_not_[ type ] as well as the ones for if command and file that
+    couldn't be opened. I piped std::cout and std::cerr using >& to diff.txt
+    and diff1.txt. I also created a showStack function to print out the stack
+    which helped me debug. In the final stages of my code, I tried to make my
+    code modular by making small adjustments and running then diff and 
+    unit_tests that I have made every time I changed it.
