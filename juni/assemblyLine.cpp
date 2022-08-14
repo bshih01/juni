@@ -30,7 +30,7 @@ int main() {
     std::cin >> nextName;
     if (nextName != "!quit") {
       std::cout << "Enter the object's weight in pounds: ";
-      std::cin >> nextWeights;
+      std::cin >> nextWeights;s
 
       // Create a new object based on the new information
       Object* nextObject = new Object(nextName, nextWeights);
